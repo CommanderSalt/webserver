@@ -3,7 +3,7 @@ const http = require('http');
 
 const PORT = process.env.PORT || 80
 const returndata = {
-    ["done"]: "not released yet:(",
+    ["done"]: "eddie has small pp",
 }
 
 const writeErr = (res, code, message) => {
