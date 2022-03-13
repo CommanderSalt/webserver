@@ -9,7 +9,7 @@ const { URL } = require('url');
 
 const PORT = process.env.PORT || 80
 const returndata = {
-    ["done"]: false,
+    ["done"]: true,
 }
 
 const writeErr = (res, code, message) => {
