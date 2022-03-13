@@ -1,11 +1,5 @@
-// Dependencies
-const proxy = require('http-proxy');
-const https = require('https');
 const http = require('http');
-const crypto = require('crypto');
-const assert = require('assert');
-const zlib = require('zlib');
-const { URL } = require('url');
+
 
 const PORT = process.env.PORT || 80
 const returndata = {
