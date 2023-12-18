@@ -24,14 +24,13 @@ server.on("request", async function(req, res){
     
     let s = url.split("/")
 
+    console.log("S: " + s)
+
     if (s[1] == "likes"){
         if (Date.now() - cache[1] > 2*60*1000) {
             let response = await http.request({
                 ["url"]: `https://games.roblox.com/v1/games/votes?universeIds=5085238610`,
                 ["method"]: "GET",
-            })
-            response.on("error", function(err){
-                console.error(err)
             })
 
             let result = null
