@@ -24,7 +24,7 @@ server.on("request", async function(req, res){
     let s = url.split("/")
 
     if (s[1] == "likes"){
-        if (Date.now() - cache[1] > 5*60*1000) {
+        if (Date.now() - cache[1] > 0) {
             let response = await request({
                 ["url"]: `https://games.roblox.com/v1/games/votes?universeIds=5085238610`,
                 ["method"]: "GET",
@@ -32,6 +32,7 @@ server.on("request", async function(req, res){
 
             let result = null
             if (response.status == 200){
+                console.log(response)
                 result = response.data.data.upVotes  
                 cached[2] = result
             } else {    
