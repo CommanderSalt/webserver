@@ -1,4 +1,5 @@
 const http = require("http")
+const axios = require("axios").default;
 const PORT = process.env.PORT || 80
 const server = http.createServer()
 const cache = {
@@ -34,7 +35,7 @@ server.on("request", async function(req, res) {
             let response
 
             try {
-                response = http.request({
+                response = await axios.request({
                     ["url"]: `https://games.roblox.com/v1/games/votes?universeIds=5085238610`,
                     ["method"]: "GET",
                 })
