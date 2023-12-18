@@ -23,6 +23,7 @@ server.on("request", async function(req, res){
     
     let s = url.split("/")
 
+    console.log(req.method)
     if (s[1] == "likes"){
         if (Date.now() - cache[1] > 0) {
             let response = await request({
@@ -30,6 +31,7 @@ server.on("request", async function(req, res){
                 ["method"]: "GET",
             })
 
+            console.log(response)
             let result = null
             if (response.status == 200){
                 console.log(response)
