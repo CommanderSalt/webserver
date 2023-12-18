@@ -1,14 +1,14 @@
 const http = require("http")
 const PORT = process.env.PORT || 80
 const server = http.createServer()
-const cache = {[1]: 0, [2]: 0}
+const cache = { [1]: 0, [2]: 0 }
 
-server.on("request", async function(req, res){
-    req.on("error", function(err){
+server.on("request", async function (req, res) {
+    req.on("error", function (err) {
         console.error(err)
     })
 
-    if (req.method !== "GET"){
+    if (req.method !== "GET") {
         res.statusCode = 405
         res.end()
         return
@@ -16,42 +16,43 @@ server.on("request", async function(req, res){
 
     let url = req.url
 
-    if (url == "/"){
+    if (url == "/") {
         res.statusCode = 200
         res.end()
         return
     }
-    
+
     let s = url.split("/")
 
     console.log("S: " + s)
 
-    if (s[1] == "likes"){
-        if (Date.now() - cache[1] > 2*60*1000) {
+    if (s[1] == "likes") {
+        if (Date.now() - cache[1] > 2 * 60 * 1000) {
             let response = await http.request({
                 ["url"]: `https://games.roblox.com/v1/games/votes?universeIds=5085238610`,
                 ["method"]: "GET",
             })
 
             let result = null
-            if (response.status == 200){
-                result = response.data.data.upVotes  
+            if (response.status == 200) {
+                console.log(response.data.data)
+                result = response.data.data.upVotes
                 cache[2] = result
-            } else {    
+            } else {
                 console.log("Error " + response.status + ": " + response.statusText + " while getting likes")
             }
 
             res.statusCode = 200
             res.end(JSON.stringify({
                 ["likes"]: cache[2]
-        }))
+            }))
 
             cache[1] = Date.now()
         } else {
             res.statusCode = 200
             res.end(JSON.stringify({
                 ["likes"]: cache[2]
-        }))
+            }))
         }
 
         return
@@ -62,7 +63,7 @@ server.on("request", async function(req, res){
 })
 
 server.listen(PORT, (err) => {
-    if (err){
+    if (err) {
         console.error(`Server listening error: ${err}`)
         return
     }
