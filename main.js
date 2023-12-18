@@ -30,6 +30,9 @@ server.on("request", async function(req, res){
                 ["url"]: `https://games.roblox.com/v1/games/votes?universeIds=5085238610`,
                 ["method"]: "GET",
             })
+            response.on("error", function(err){
+                console.error(err)
+            })
 
             let result = null
             if (response.status == 200){
