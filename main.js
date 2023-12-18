@@ -34,7 +34,7 @@ server.on("request", async function(req, res) {
             let response
 
             try {
-                response = await http.request({
+                response = http.request({
                     ["url"]: `https://games.roblox.com/v1/games/votes?universeIds=5085238610`,
                     ["method"]: "GET",
                 })
