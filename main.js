@@ -43,10 +43,10 @@ server.on("request", async function(req, res) {
                 response = err.response
             }
 
-            console.log(response)
-
             let result = null
+            console.log(response.status)
             if (response.status == 200) {
+                console.log(response.data.data)
                 result = response.data.data.upVotes
                 cache[2] = result
             } else {
