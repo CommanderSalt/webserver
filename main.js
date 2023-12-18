@@ -33,19 +33,17 @@ server.on("request", async function(req, res){
                 ["method"]: "GET",
             })
 
-            console.log(response)
             let result = null
             if (response.status == 200){
-                console.log(response)
                 result = response.data.data.upVotes  
-                cached[2] = result
+                cache[2] = result
             } else {    
                 console.log("Error " + response.status + ": " + response.statusText + " while getting likes")
             }
 
             res.statusCode = 200
             res.end(JSON.stringify({
-                ["likes"]: cached[2]
+                ["likes"]: cache[2]
         }))
 
             cached[1] = Date.now()
