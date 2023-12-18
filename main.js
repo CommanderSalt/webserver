@@ -47,7 +47,7 @@ server.on("request", async function(req, res) {
             console.log(response.status)
             if (response.status == 200) {
                 console.log(response.data.data)
-                result = response.data.data.upVotes
+                result = response.data.data[0].upVotes
                 cache[2] = result
             } else {
                 console.log("Error " + response.status + ": " + response.statusText + " while getting likes")
