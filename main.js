@@ -15,6 +15,8 @@ server.on("request", async function(req, res){
     }
 
     let url = req.url
+    console.log(url)
+
     if (url == "/"){
         res.statusCode = 200
         res.end()
