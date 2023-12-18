@@ -15,7 +15,6 @@ server.on("request", async function(req, res){
     }
 
     let url = req.url
-    console.log(url)
 
     if (url == "/"){
         res.statusCode = 200
@@ -25,9 +24,8 @@ server.on("request", async function(req, res){
     
     let s = url.split("/")
 
-    console.log(req.method, s[1])
     if (s[1] == "likes"){
-        if (Date.now() - cache[1] > 0) {
+        if (Date.now() - cache[1] > 2*60*1000) {
             let response = await http.request({
                 ["url"]: `https://games.roblox.com/v1/games/votes?universeIds=5085238610`,
                 ["method"]: "GET",
@@ -46,7 +44,7 @@ server.on("request", async function(req, res){
                 ["likes"]: cache[2]
         }))
 
-            cached[1] = Date.now()
+            cache[1] = Date.now()
         } else {
             res.statusCode = 200
             res.end(JSON.stringify({
