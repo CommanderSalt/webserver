@@ -1,10 +1,13 @@
 const http = require("http")
 const PORT = process.env.PORT || 80
 const server = http.createServer()
-const cache = { [1]: 0, [2]: 0 }
+const cache = {
+    [1]: 0,
+    [2]: 0
+}
 
-server.on("request", async function (req, res) {
-    req.on("error", function (err) {
+server.on("request", async function(req, res) {
+    req.on("error", function(err) {
         console.error(err)
     })
 
@@ -28,14 +31,20 @@ server.on("request", async function (req, res) {
 
     if (s[1] == "likes") {
         if (Date.now() - cache[1] > 2 * 60 * 1000) {
-            let response = await http.request({
-                ["url"]: `https://games.roblox.com/v1/games/votes?universeIds=5085238610`,
-                ["method"]: "GET",
-            })
+            let response
+
+            try {
+                response = await http.request({
+                    ["url"]: `https://games.roblox.com/v1/games/votes?universeIds=5085238610`,
+                    ["method"]: "GET",
+                })
+            } catch (err) {
+                response = err.response
+            }
+
 
             let result = null
             if (response.status == 200) {
-                console.log(response.data.data)
                 result = response.data.data.upVotes
                 cache[2] = result
             } else {
