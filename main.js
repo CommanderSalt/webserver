@@ -28,8 +28,6 @@ server.on("request", async function(req, res) {
 
     let s = url.split("/")
 
-    console.log("S: " + s)
-
     if (s[1] == "likes") {
         if (Date.now() - cache[1] > 2 * 60 * 1000) {
             let response
@@ -46,7 +44,6 @@ server.on("request", async function(req, res) {
             let result = null
             console.log(response.status)
             if (response.status == 200) {
-                console.log(response.data.data)
                 result = response.data.data[0].upVotes
                 cache[2] = result
             } else {
