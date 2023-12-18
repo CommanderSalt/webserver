@@ -25,10 +25,10 @@ server.on("request", async function(req, res){
     
     let s = url.split("/")
 
-    console.log(req.method)
+    console.log(req.method, s[1])
     if (s[1] == "likes"){
         if (Date.now() - cache[1] > 0) {
-            let response = await request({
+            let response = await http.request({
                 ["url"]: `https://games.roblox.com/v1/games/votes?universeIds=5085238610`,
                 ["method"]: "GET",
             })
