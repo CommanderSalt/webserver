@@ -42,6 +42,7 @@ server.on("request", async function(req, res) {
                 response = err.response
             }
 
+            console.log(response)
 
             let result = null
             if (response.status == 200) {
