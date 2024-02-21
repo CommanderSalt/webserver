@@ -30,12 +30,15 @@ server.on("request", async function(req, res) {
     req.on("end", async function() {
 
         const data = Buffer.concat(chunks).toString()
+        let parsed = JSON.parse(data)
+        console.log(url)
+        console.log(parsed)
         let url = req.url
 
         let response = await axios.request({
             url: "https://discord.com/api/webhooks" + url,
             method: "POST",
-            data: JSON.parse(data)
+            data: parsed
         })
     
         if (response.status == 200){
