@@ -37,7 +37,7 @@ server.on("request", async function(req, res) {
         console.log("Message created")
     }
 
-    sendresponse(req, response.status, JSON.stringify(response.data))
+    sendresponse(res, response.status, JSON.stringify(response.data))
 })
 
 server.listen(PORT, (err) => {
