@@ -31,10 +31,11 @@ server.on("request", async function(req, res) {
 
         const data = Buffer.concat(chunks).toString()
         let parsed = JSON.parse(data)
-        console.log(url)
-        console.log(parsed)
         let url = req.url
 
+        console.log(url)
+        console.log(parsed)
+      
         let response = await axios.request({
             url: "https://discord.com/api/webhooks" + url,
             method: "POST",
