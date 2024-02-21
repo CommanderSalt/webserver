@@ -28,14 +28,14 @@ server.on("request", async function(req, res) {
     req.on('data', chunk => chunks.push(chunk))
 
     req.on("end", async function() {
-        
+
         const data = Buffer.concat(chunks)
         let url = req.url
 
         let response = await axios.request({
             url: "https://discord.com/api/webhooks" + url,
             method: "POST",
-            data: req.request
+            data: data
         })
     
         if (response.status == 200){
