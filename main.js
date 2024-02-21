@@ -24,19 +24,26 @@ server.on("request", async function(req, res) {
         return
     }
 
-    let url = req.url
+    const chunks = []
+    req.on('data', chunk => chunks.push(chunk))
 
-    let response = await axios.request({
-        url: "https://discord.com/api/webhooks" + url,
-        method: "POST",
-        data: req.data
+    req.on("end", async function() {
+        
+        const data = Buffer.concat(chunks)
+        let url = req.url
+
+        let response = await axios.request({
+            url: "https://discord.com/api/webhooks" + url,
+            method: "POST",
+            data: req.request
+        })
+    
+        if (response.status == 200){
+            console.log("Message created")
+        }
+    
+        sendresponse(res, response.status, JSON.stringify(response.data))
     })
-
-    if (response.status == 200){
-        console.log("Message created")
-    }
-
-    sendresponse(res, response.status, JSON.stringify(response.data))
 })
 
 server.listen(PORT, (err) => {
