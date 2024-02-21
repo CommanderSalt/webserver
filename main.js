@@ -4,7 +4,6 @@ const axios = require("axios").default;
 const PORT = process.env.PORT || 80
 const server = http.createServer()
 
-
 function sendresponse(res, status, body){
     res.statusCode = status
     res.end(body)
@@ -27,7 +26,7 @@ server.on("request", async function(req, res) {
 
     let url = req.url
 
-    let response = await request({
+    let response = await axios.request({
         url: "https://discord.com/api/webhooks" + url,
         method: "POST",
         data: req.data
