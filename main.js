@@ -33,23 +33,22 @@ server.on("request", async function(req, res) {
         let parsed = JSON.parse(data)
         let url = req.url
 
-        console.log(url)
-        console.log(parsed)
-      
-        /*let response = await axios.request({
-            url: "https://discord.com/api/webhooks" + url,
-            method: "POST",
-            data: parsed
-        })
-    
+        let response = null
+        try {
+            let response = await axios.request({
+                url: "https://discord.com/api/webhooks" + url,
+                method: "POST",
+                data: parsed
+            })
+        } catch(err){
+            sendresponse(res, 422)
+        }
+        
         if (response.status == 200){
             console.log("Message created")
         }
-            sendresponse(res, response.status, JSON.stringify(response.data))
-        */
 
-         sendresponse(res, 200)
-        
+        sendresponse(res, response.status, JSON.stringify(response.data))   
     })
 })
 
