@@ -29,7 +29,7 @@ server.on("request", async function(req, res) {
 
     req.on("end", async function() {
 
-        const data = Buffer.concat(chunks)
+        const data = Buffer.concat(chunks).toString()
         let url = req.url
 
         let response = await axios.request({
