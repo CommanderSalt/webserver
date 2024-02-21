@@ -49,6 +49,7 @@ server.on("request", async function(req, res) {
             console.log("Message created")
         } else {
             sendresponse(res, response.status)   
+            return
         }
 
         sendresponse(res, response.status, JSON.stringify(response.data))   
