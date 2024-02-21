@@ -1,10 +1,13 @@
+const { stat } = require("fs");
 const http = require("http")
 const axios = require("axios").default;
 const PORT = process.env.PORT || 80
 const server = http.createServer()
-const cache = {
-    [1]: 0,
-    [2]: 0
+
+
+function sendresponse(res, status, body){
+    res.statusCode = status
+    res.end(body)
 }
 
 server.on("request", async function(req, res) {
@@ -12,62 +15,29 @@ server.on("request", async function(req, res) {
         console.error(err)
     })
 
-    if (req.method !== "GET") {
-        res.statusCode = 405
-        res.end()
+    if (req.url == "/ping"){
+        sendresponse(res, 200)
+        return
+    }
+
+    if (req.method !== "POST") {
+        sendresponse(res, 405)
         return
     }
 
     let url = req.url
 
-    if (url == "/") {
-        res.statusCode = 200
-        res.end()
-        return
+    let response = await http.request({
+        url: "https://discord.com/api/webhooks" + url,
+        method: "POST",
+        data: req.data
+    })
+
+    if (response.status == 200){
+        console.log("Message created")
     }
 
-    let s = url.split("/")
-
-    if (s[1] == "likes") {
-        if (Date.now() - cache[1] > 2 * 60 * 1000) {
-            let response
-
-            try {
-                response = await axios.request({
-                    ["url"]: `https://games.roblox.com/v1/games/votes?universeIds=5085238610`,
-                    ["method"]: "GET",
-                })
-            } catch (err) {
-                response = err.response
-            }
-
-            let result = null
-            console.log(response.status)
-            if (response.status == 200) {
-                result = response.data.data[0].upVotes
-                cache[2] = result
-            } else {
-                console.log("Error " + response.status + ": " + response.statusText + " while getting likes")
-            }
-
-            res.statusCode = 200
-            res.end(JSON.stringify({
-                ["likes"]: cache[2]
-            }))
-
-            cache[1] = Date.now()
-        } else {
-            res.statusCode = 200
-            res.end(JSON.stringify({
-                ["likes"]: cache[2]
-            }))
-        }
-
-        return
-    }
-
-    res.statusCode = 404
-    res.end()
+    sendresponse(req, response.status, JSON.stringify(response.data))
 })
 
 server.listen(PORT, (err) => {
