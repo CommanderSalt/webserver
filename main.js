@@ -27,7 +27,7 @@ server.on("request", async function(req, res) {
 
     let url = req.url
 
-    let response = await http.request({
+    let response = await request({
         url: "https://discord.com/api/webhooks" + url,
         method: "POST",
         data: req.data
