@@ -47,6 +47,8 @@ server.on("request", async function(req, res) {
         
         if (response.status == 200){
             console.log("Message created")
+        } else {
+            sendresponse(res, response.status)   
         }
 
         sendresponse(res, response.status, JSON.stringify(response.data))   
