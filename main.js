@@ -30,7 +30,14 @@ server.on("request", async function(req, res) {
     req.on("end", async function() {
 
         const data = Buffer.concat(chunks).toString()
-        let parsed = JSON.parse(data)
+
+        let parsed 
+        try {
+            parsed = JSON.parse(data)
+        } catch(err){
+            sendresponse(res, 422)
+        }
+       
         let url = req.url
 
         let response = null
